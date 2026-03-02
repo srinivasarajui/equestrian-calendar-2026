@@ -438,6 +438,7 @@ if(d>=ev.start && d<=ev.end){
 html+=`<div class="event"
 onmouseenter="showPopup(event,'${ev.event}','${ev.venue}','${ev.start}-${ev.end}','${month}')"
 onmouseleave="hidePopup()"
+onclick="clickPopup(event,'${ev.event}','${ev.venue}','${ev.start}-${ev.end}','${month}')"
 >${ev.event}</div>`
 }
 })
@@ -493,22 +494,35 @@ table.innerHTML=html
 
 function showPopup(e,name,venue,startEnd,month){
 
+let details=name==="CSI"?"CSI 1*, CSI-CH and CSI J":name
+
 popup.innerHTML=`
-<div class="popupTitle">${name}</div>
+<div class="popupTitle">${details}</div>
 <div><b>Venue:</b> ${venue}</div>
 <div><b>Date:</b> ${startEnd} ${month}</div>
 `
 
-popup.style.left=(e.clientX+10)+"px"
-popup.style.top=(e.clientY+10)+"px"
-
 popup.classList.remove("hidden")
+
+let x=e.clientX+10
+let y=e.clientY+10
+if(x+popup.offsetWidth>window.innerWidth) x=e.clientX-popup.offsetWidth-10
+if(y+popup.offsetHeight>window.innerHeight) y=e.clientY-popup.offsetHeight-10
+popup.style.left=Math.max(0,x)+"px"
+popup.style.top=Math.max(0,y)+"px"
 
 }
 
 function hidePopup(){
 popup.classList.add("hidden")
 }
+
+function clickPopup(e,name,venue,startEnd,month){
+e.stopPropagation()
+showPopup(e,name,venue,startEnd,month)
+}
+
+document.addEventListener("click",hidePopup)
 
 document.querySelectorAll("select").forEach(x=>{
 x.onchange=()=>{
