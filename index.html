@@ -506,10 +506,12 @@ popup.classList.remove("hidden")
 
 let x=e.clientX+10
 let y=e.clientY+10
-if(x+popup.offsetWidth>window.innerWidth) x=e.clientX-popup.offsetWidth-10
-if(y+popup.offsetHeight>window.innerHeight) y=e.clientY-popup.offsetHeight-10
-popup.style.left=Math.max(0,x)+"px"
-popup.style.top=Math.max(0,y)+"px"
+const pw=popup.offsetWidth
+const ph=popup.offsetHeight
+if(x+pw>window.innerWidth) x=e.clientX-pw-10
+if(y+ph>window.innerHeight) y=e.clientY-ph-10
+popup.style.left=Math.max(0,Math.min(x,window.innerWidth-pw))+"px"
+popup.style.top=Math.max(0,Math.min(y,window.innerHeight-ph))+"px"
 
 }
 
