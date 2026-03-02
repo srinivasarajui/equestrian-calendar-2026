@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Equestrian Events 2026</title>
 
 <style>
@@ -57,12 +58,20 @@ select{
 padding:7px;
 border-radius:6px;
 border:none;
+background:#1e293b;
+color:white;
 }
 
 /* Table */
 
+.tableWrapper{
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+}
+
 table{
 width:100%;
+min-width:360px;
 border-collapse:collapse;
 background:#1e293b;
 }
@@ -70,6 +79,7 @@ background:#1e293b;
 th,td{
 padding:10px;
 border-bottom:1px solid #334155;
+text-align:left;
 }
 
 th{
@@ -99,12 +109,13 @@ margin-bottom:8px;
 .calendar{
 display:grid;
 grid-template-columns:repeat(7,1fr);
-gap:5px;
+gap:4px;
 }
 
 .dayHeader{
 text-align:center;
 font-weight:bold;
+font-size:12px;
 }
 
 .day{
@@ -136,7 +147,7 @@ display:none;
 /* Popup */
 
 .popup{
-position:absolute;
+position:fixed;
 background:#111827;
 border:1px solid #334155;
 padding:10px;
@@ -152,6 +163,67 @@ box-shadow:0 10px 25px rgba(0,0,0,.4);
 font-weight:bold;
 margin-bottom:6px;
 color:#22c55e;
+}
+
+/* ── Responsive: tablet ─────────────────────────────────── */
+@media(max-width:900px){
+.monthWrapper{
+grid-template-columns:1fr;
+}
+.day{
+min-height:65px;
+}
+}
+
+/* ── Responsive: mobile ─────────────────────────────────── */
+@media(max-width:600px){
+header{
+font-size:18px;
+padding:12px 10px;
+}
+.container{
+padding:10px;
+}
+.tab{
+padding:10px 14px;
+font-size:14px;
+flex:1;
+text-align:center;
+}
+.controls{
+gap:8px;
+}
+.controls select{
+flex:1 1 calc(50% - 8px);
+min-width:0;
+font-size:14px;
+}
+.monthTitle{
+font-size:16px;
+}
+.dayHeader{
+font-size:10px;
+}
+.calendar{
+gap:2px;
+}
+.day{
+min-height:48px;
+padding:2px;
+font-size:10px;
+}
+.event{
+font-size:9px;
+padding:1px 3px;
+}
+.popup{
+width:170px;
+font-size:12px;
+}
+th,td{
+padding:8px 6px;
+font-size:13px;
+}
 }
 
 </style>
@@ -251,7 +323,7 @@ color:#22c55e;
 
 </div>
 
-<div id="table"></div>
+<div class="tableWrapper"><div id="table"></div></div>
 
 </div>
 
@@ -427,8 +499,8 @@ popup.innerHTML=`
 <div><b>Date:</b> ${startEnd} ${month}</div>
 `
 
-popup.style.left=(e.pageX+10)+"px"
-popup.style.top=(e.pageY+10)+"px"
+popup.style.left=(e.clientX+10)+"px"
+popup.style.top=(e.clientY+10)+"px"
 
 popup.classList.remove("hidden")
 
